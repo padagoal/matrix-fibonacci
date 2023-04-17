@@ -44,6 +44,8 @@
 
                     },
                     success: function(response) {
+                        console.log("ITs working");
+                        console.log(response);
                         // On success, draw spiral on canvas
                         $('#matrix').empty();
                         for (var i = 0; i < size; i++) {

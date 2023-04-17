@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class FibonacciAPI {
 
     @ApiLog
-    @CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/spiral")
     public int[][] fibonacciMatrix(@RequestParam(value = "row", defaultValue = "5") Integer row,
                                 @RequestParam(value = "col", defaultValue = "5") Integer col){

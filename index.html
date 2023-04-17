@@ -3,22 +3,58 @@
 <head>
     <title>Fibonacci Spiral</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-color: #dddddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
 <h1>Fibonacci Spiral</h1>
 <form>
-    <label for="size">Matrix Size:</label>
-    <input type="number" id="size" name="size" value="10" min="1">
+    <label for="rowSize">Matrix Size:</label>
+    <input type="number" id="rowSize" name="rowSize" value="5" min="1">
+    <input type="number" id="colSize" name="colSize" value="5" min="1">
     <button type="submit">Generate</button>
 </form>
-<table id="matrix"></table>
+<table id="matrix" style="border-collapse: collapse; width: 100%;">
+    <div id="matrixData">
+
+    </div>
+</table>
 <script>
     $('form').submit(function(event) {
         event.preventDefault();
         // Define API endpoint URL
-        var apiUrl = "http://localhost:8080/spiral?row=5&col=5";
 
-        // Get JWT token for authentication
+        var rowsInput = $('#rowSize').val();
+        var colsInput = $('#colSize').val();
+
+        var apiUrl = "http://localhost:8080/spiral?row=" +rowsInput+ "&col="+colsInput;
+
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/authenticate",
@@ -33,8 +69,8 @@
                 "password": "password"
             }),
             success: function(response) {
-                // On success, make authenticated API call to generate spiral
                 console.log("SUCCESS JWT")
+
                 $.ajax({
                     type: "GET",
                     url: apiUrl,
@@ -44,28 +80,30 @@
 
                     },
                     success: function(response) {
-                        console.log("ITs working");
-                        console.log(response);
-                        // On success, draw spiral on canvas
-                        $('#matrix').empty();
-                        for (var i = 0; i < size; i++) {
-                            var row = $('<tr></tr>');
-                            for (var j = 0; j < size; j++) {
-                                var value = data[i][j];
-                                var cell = $('<td></td>').text(value);
-                                row.append(cell);
+                        $('#matrixData').empty();
+                        var rowBegin= '<tr>';
+                        var cellBegin = '<td>';
+                        var cellEnd = '</td>';
+                        var rowEnd= '</tr>';
+                        var result='';
+                        var rows='';
+                        var rowData='';
+                        for(var l=0;l<rowsInput;l++){
+                            for (var k=0;k<colsInput;k++){
+                                rowData += cellBegin + response.matrix[l][k] + cellEnd;
                             }
-                            $('#matrix').append(row);
+                            result += rowBegin + rowData+ rowEnd;
+                            rowData='';
                         }
+                        $('#matrixData').append(result);
                     },
                 error: function(xhr) {
-                    // On error, display error message
+
                     console.log("Error: " + xhr.responseText);
                 }
             });
         },
         error: function(xhr) {
-            // On error, display error message
             console.log("ERROR JWT");
             console.log("Error: " + xhr.responseText);
         }

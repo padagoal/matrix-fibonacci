@@ -1,16 +1,16 @@
-#Fibonacci Spiral Matrix
+# Fibonacci Spiral Matrix
 
 
 This project generates a spiral matrix with Fibonacci numbers and provides a REST API and a frontend client to display the matrix.
 
 
-##Prerequisites
+## Prerequisites
 
 - Java 11 or later
 - Maven 3.6 or later
 - Docker
 
-##Building the Project
+## Building the Project
 
 1. Clone the repository:
 
@@ -22,7 +22,7 @@ This project generates a spiral matrix with Fibonacci numbers and provides a RES
 
 `mvn clean package`
 
-##Running the APP
+## Running the APP
 
 1. Start the server
 

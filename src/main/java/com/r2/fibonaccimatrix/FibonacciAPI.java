@@ -20,7 +20,9 @@ public class FibonacciAPI {
     public fibonacciResponse fibonacciMatrix(@RequestParam(value = "row", defaultValue = "5") Integer row,
                                              @RequestParam(value = "col", defaultValue = "5") Integer col){
 
-
+        if(row<=0 || col<=0 ){
+            return null;
+        }
         FibonacciSpiralService fibonacciSpiralService = new FibonacciSpiralService(row, col);
 
         int[][] matrix = fibonacciSpiralService.getMatrix();
